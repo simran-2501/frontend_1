@@ -8,6 +8,9 @@ import Dashboard from './Pages/Dashboard'
 import Otp from './Pages/Otp'
 import DashboardXYZ from './Pages/DashboardXYZ'
 import ObjectDetection from './Pages/ObjectDetection'
+import PersonDetection from './Pages/PersonDetection'
+import PersonDetectionResult from './Components/PersonDetectionResult'
+import VehicleDetection from './Pages/VehicleDetection'
 function App() {
   
 
@@ -19,6 +22,9 @@ function App() {
     <Route exact path='/login' element={<Login/>}></Route>
     <Route exact path='/otp' element={<Otp/>}></Route>
 <Route exact path='/objectdetection' element={<ObjectDetection/>}></Route>
+<Route exact path='/persondetection' element={<PersonDetection/>}></Route>
+<Route exact path='/persondetection/result' element={<PersonDetectionResult/>}></Route>
+<Route exact path='/vehicledetection' element={<VehicleDetection/>}></Route>
 
    
    </Routes>
