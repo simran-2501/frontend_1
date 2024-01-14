@@ -22,7 +22,7 @@ function Map() {
         });
 
         if (!locations.ok) {
-          throw new Error(`HTTP error! Status: ${locations.status}`);
+          throw new Error('HTTP error! Status: ${locations.status}');
         }
 
         var data = await locations.json();
@@ -47,7 +47,27 @@ function Map() {
               icon: icons[location.type].icon
             });
 
-            // ... Rest of your marker and infowindow code
+            marker.addListener('click', function () {
+              infowindow.close();
+
+              var geocoder = new google.maps.Geocoder();
+              geocoder.geocode({ location: marker.getPosition() }, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                  var address = results[0].formatted_address;
+                  var pincode = address.match(/\b\d{6}\b/);
+
+                  infowindow.setContent(
+                    "<div class='info-window'>" +
+                    "<p>Latitude: " + location.latitude + "</p>" +
+                    "<p>Longitude: " + location.longitude + "</p>" +
+                    "<p>Id: RJ-" + pincode + "-" + key + "</p>" +
+                    "<p>Address: " + address + "</p>" +
+                    "</div>"
+                  );
+                  infowindow.open(map, marker);
+                }
+              });
+            });
           } else {
             console.error('Invalid latitude or longitude:', location.latitude, location.longitude);
           }
@@ -59,7 +79,7 @@ function Map() {
 
     // Load Google Maps script
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCBS8QgrjlTbZvaGloOV24gOMLaxBPxo0c&callback=initMap`;
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCBS8QgrjlTbZvaGloOV24gOMLaxBPxo0c&callback=initMap';
     script.defer = true;
     script.async = true;
     document.head.appendChild(script);
@@ -71,7 +91,7 @@ function Map() {
     };
   }, []);
 
-  return <div id="map" style={{ height: '400px', width: '100%' }}></div>;
+  return <div id="map" style={{height:'85vh', width: '100%' }}></div>;
 }
 
 export default Map;
